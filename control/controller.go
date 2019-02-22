@@ -196,7 +196,7 @@ func (c *Controller) compileQuery(q *Query, compiler flux.Compiler) error {
 			return errors.Wrap(err, "failed to create logical plan")
 		}
 		if entry := c.logger.Check(zapcore.DebugLevel, "logical plan"); entry != nil {
-			entry.Write(zap.String("plan", fmt.Sprint(plan.Formatted(lp))))
+			entry.Write(zap.String("plan", fmt.Sprint(plan.Formatted(lp, plan.FormatTitle("logical_plan")))))
 		}
 
 		p, err := c.pplanner.Plan(lp)
@@ -210,7 +210,7 @@ func (c *Controller) compileQuery(q *Query, compiler flux.Compiler) error {
 		}
 		q.memory = p.Resources.MemoryBytesQuota
 		if entry := c.logger.Check(zapcore.DebugLevel, "physical plan"); entry != nil {
-			entry.Write(zap.String("plan", fmt.Sprint(plan.Formatted(q.plan))))
+			entry.Write(zap.String("plan", fmt.Sprint(plan.Formatted(p, plan.FormatTitle("physical_plan")))))
 		}
 	}
 	return nil

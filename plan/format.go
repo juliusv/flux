@@ -7,6 +7,7 @@ type FormatOption func(*formatter)
 // TODO(cwolff): enhance the this output to make it more useful
 func Formatted(p *PlanSpec, opts ...FormatOption) fmt.Formatter {
 	f := formatter{
+		t: "plan",
 		p: p,
 	}
 	for _, o := range opts {
@@ -15,12 +16,19 @@ func Formatted(p *PlanSpec, opts ...FormatOption) fmt.Formatter {
 	return f
 }
 
+func FormatTitle(title string) FormatOption {
+	return func(f *formatter) {
+		f.t = title
+	}
+}
+
 type formatter struct {
+	t string
 	p *PlanSpec
 }
 
 func (f formatter) Format(fs fmt.State, c rune) {
-	fmt.Fprintf(fs, "\ndigraph {\n")
+	fmt.Fprintf(fs, "\ndigraph %s {\n", f.t)
 	var edges []string
 	f.p.BottomUpWalk(func(pn PlanNode) error {
 		fmt.Fprintf(fs, "  %v\n", pn.ID())

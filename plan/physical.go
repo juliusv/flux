@@ -162,7 +162,7 @@ func (physicalConverterRule) Rewrite(pn PlanNode) (PlanNode, bool, error) {
 
 	newNode := PhysicalPlanNode{
 		bounds: ln.bounds,
-		id:     ln.id,
+		id:     "phys_" + ln.id,
 		Spec:   pspec,
 	}
 

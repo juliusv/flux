@@ -19,7 +19,7 @@ func TestASTCompiler(t *testing.T) {
 	testcases := []struct {
 		name   string
 		now    func() time.Time
-		file *ast.File
+		file   *ast.File
 		script string
 		want   *flux.Spec
 	}{
