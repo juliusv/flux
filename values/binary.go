@@ -107,7 +107,6 @@ var binaryFuncLookup = map[BinaryFuncSignature]BinaryFunction{
 	//---------------------
 
 	// LessThanEqualOperator
-
 	{Operator: ast.LessThanEqualOperator, Left: semantic.Int, Right: semantic.Int}: func(lv, rv Value) Value {
 		l := lv.Int()
 		r := rv.Int()
@@ -166,6 +165,11 @@ var binaryFuncLookup = map[BinaryFuncSignature]BinaryFunction{
 	},
 
 	// LessThanOperator
+	{Operator: ast.LessThanOperator, Left: semantic.Time, Right: semantic.Time}: func(lv, rv Value) Value {
+		l := lv.Time().Time()
+		r := rv.Time().Time()
+		return NewBool(l.Before(r))
+	},
 
 	{Operator: ast.LessThanOperator, Left: semantic.Int, Right: semantic.Int}: func(lv, rv Value) Value {
 		l := lv.Int()
